@@ -31,11 +31,11 @@ public sealed class FileManager
 
     public List<Enrollment> LoadEnrollments() => Load<List<Enrollment>>(EnrollmentsPath) ?? new();
 
-    public void SaveStudents(List<Student> students) => Save(StudentsPath, students);
+    public void SaveStudents(List<Student> students) => Save(StudentPath, students);
 
     public void SaveCourses(List<Course> courses) => Save(CoursesPath, courses);
 
-    public void SaveEnrollments(List<Enrollment> enrollments) => Save(CoursesPath, courses);
+    public void SaveEnrollments(List<Enrollment> enrollments) => Save(CoursesPath, enrollments);
 
     private T? Load<T> (string path)
     {
@@ -60,11 +60,11 @@ public sealed class FileManager
         catch (JsonException ex)
         {
             var backupPath = $"{path}.corrupt.{DateTime.UtcNow:yyyyMMddHHmmss}.bak";
-            File.Copy(Path, backupPath, overwrite:true);
+            File.Copy(path, backupPath, overwrite:true);
             Save(path, Activator.CreateInstance<T>());
 
             throw new InvalidOperationException(
-                $"JSON file '{Path.GetFileName(path)}' is corrupted. A backup was created: {path.GetFileName(backupPath)}", ex
+                $"JSON file '{Path.GetFileName(path)}' is corrupted. A backup was created: {Path.GetFileName(backupPath)}", ex
             );
         }
     }

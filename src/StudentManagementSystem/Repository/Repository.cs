@@ -31,12 +31,12 @@ public sealed class Repository
     {
         _fileManager.SaveStudents(Students);
         _fileManager.SaveCourses(Courses);
-        _fileManager.SaveEnrollMents(Enrollments);
+        _fileManager.SaveEnrollments(Enrollments);
         OnRepositoryChanged("Loaded data from JSON files.");
     }
 
     private void OnRepositoryChanged(string message)
-    => RepositoryChanged.Invoke(this, new RepositoryChangedEventArgs(message, DateTimeOffset.UtcNow));
+    => RepositoryChanged?.Invoke(this, new RepositoryChangedEventArgs(message, DateTimeOffset.UtcNow));
 }
 
 public sealed class RepositoryChangedEventArgs : EventArgs
